@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Strict CSP: no third-party scripts on a page that holds a staff session. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.hainiva.com wss://api.hainiva.com wss://*.livekit.cloud https://agents.example.com; media-src 'self' blob:; script-src 'self'" />
+    <title>Softphone</title>
+  </head>
+  <body>
+    <h1>Softphone</h1>
+    <p id="me">Signing in…</p>
+    <label>Status
+      <select id="status">
+        <option value="online">Online</option>
+        <option value="away">Away</option>
+        <option value="busy">Busy</option>
+        <option value="offline">Offline</option>
+      </select>
+    </label>
+    <h2>Ringing</h2>
+    <ul id="rings"></ul>
+    <h2>Call</h2>
+    <p id="call">No call</p>
+    <button id="hold" disabled>Hold</button>
+    <button id="hangup" disabled>Hang up</button>
+    <p><button id="signout">Sign out</button></p>
+    <p id="status-line"></p>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

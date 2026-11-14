@@ -1,0 +1,18 @@
+{
+  "name": "hainiva-web-softphone-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hainiva/agent-sdk": "^0.2.0",
+    "livekit-client": "^2.15.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vite": "^6.0.0"
+  }
+}

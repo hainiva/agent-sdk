@@ -1,0 +1,20 @@
+{
+  "name": "hainiva-agent-signer-example",
+  "private": true,
+  "type": "module",
+  "description": "Signs ES256 staff assertions for a HAINIVA agent app, and a headless agent in Node.",
+  "scripts": {
+    "start": "tsx src/server.ts",
+    "agent": "tsx src/agent.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hainiva/agent-sdk": "^0.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  },
+  "engines": { "node": ">=22" }
+}

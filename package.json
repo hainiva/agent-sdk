@@ -1,0 +1,82 @@
+{
+  "name": "@hainiva/agent-sdk",
+  "version": "0.2.0",
+  "description": "Build your own agent app on HAINIVA AICC: staff sign-in with your backend's assertion, a reconnecting event stream and a call state machine, with LiveKit media for web and React Native.",
+  "keywords": [
+    "hainiva",
+    "contact-center",
+    "agent",
+    "softphone",
+    "voip",
+    "webrtc",
+    "livekit",
+    "react-native",
+    "websocket"
+  ],
+  "homepage": "https://github.com/hainiva/agent-sdk#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hainiva/agent-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hainiva/agent-sdk/issues"
+  },
+  "license": "MIT",
+  "author": "HAINIVA (https://hainiva.com)",
+  "type": "module",
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": { "types": "./dist/esm/index.d.ts", "default": "./dist/esm/index.js" },
+      "require": { "types": "./dist/cjs/index.d.cts", "default": "./dist/cjs/index.cjs" }
+    },
+    "./web": {
+      "import": { "types": "./dist/esm/web.d.ts", "default": "./dist/esm/web.js" },
+      "require": { "types": "./dist/cjs/web.d.cts", "default": "./dist/cjs/web.cjs" }
+    },
+    "./react-native": {
+      "import": { "types": "./dist/esm/react-native.d.ts", "default": "./dist/esm/react-native.js" },
+      "require": { "types": "./dist/cjs/react-native.d.cts", "default": "./dist/cjs/react-native.cjs" }
+    },
+    "./embed": {
+      "import": { "types": "./dist/esm/embed.d.ts", "default": "./dist/esm/embed.js" },
+      "require": { "types": "./dist/cjs/embed.d.cts", "default": "./dist/cjs/embed.cjs" }
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.test.json",
+    "test": "vitest run",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build"
+  },
+  "peerDependencies": {
+    "livekit-client": ">=2.15.0 <3"
+  },
+  "peerDependenciesMeta": {
+    "livekit-client": { "optional": true }
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "livekit-client": "^2.19.2",
+    "typescript": "^5.5.2",
+    "vitest": "^2.0.3"
+  }
+}

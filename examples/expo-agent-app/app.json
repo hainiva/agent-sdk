@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Example Agent",
+    "slug": "example-agent-app",
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.example.agentapp",
+      "infoPlist": { "UIBackgroundModes": ["audio", "voip", "remote-notification"] }
+    },
+    "android": {
+      "package": "com.example.agentapp",
+      "allowBackup": false,
+      "googleServicesFile": "./google-services.json"
+    },
+    "plugins": [
+      ["@hainiva/react-native-call", { "appName": "Example Agent" }],
+      "@livekit/react-native-expo-plugin",
+      "@config-plugins/react-native-webrtc",
+      "@react-native-firebase/app",
+      "expo-secure-store"
+    ]
+  }
+}
