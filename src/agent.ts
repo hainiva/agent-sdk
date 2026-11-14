@@ -13,7 +13,7 @@
  */
 import { CallStore, type CallEffect, type CallsState, type TransferTarget } from "./calls.js";
 import type {
-  AgentAcceptDto, AgentCallEndedData, AgentCallRingingData, AgentConversationDto, AgentDispositionDto, AgentMeDto,
+  AgentAcceptDto, AgentCallEndedData, AgentDeskSessionDto, AgentCallRingingData, AgentConversationDto, AgentDispositionDto, AgentMeDto,
   AgentMessageDto, AgentPage, AgentPushSubscriptionDto, AgentPushSubscriptionInput, AgentRingDto, AgentSessionDto,
   SupervisorAgentDto, SupervisorLiveCallDto, SupervisorSuperviseDto,
 } from "./contract.js";
@@ -158,6 +158,11 @@ export class HainivaAgent {
   }
 
   setStatus(status: AgentStatus, o?: RequestOptions): Promise<{ status: AgentStatus }> { return this.guard(this.rest.setStatus(status, o)); }
+
+  readonly desk = {
+    /** A desk token for the embedded desk (`@hainiva/agent-sdk/embed` mountDesk / `<HainivaDesk/>` call this). */
+    session: (): Promise<AgentDeskSessionDto> => this.guard(this.rest.deskSession()),
+  };
 
   readonly rings = {
     /** Rings waiting for you now (also fed into the call state). */

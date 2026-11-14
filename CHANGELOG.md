@@ -7,9 +7,27 @@ release (`0.2.0`) may change the API; a patch release (`0.1.1`) never does.
 
 ## [Unreleased]
 
-## [0.2.0]
+## [0.3.0] - 2026-11-14
 
-Preview, not yet published.
+- `@hainiva/agent-sdk/embed`: `mountDesk(container, { agent, appId, baseUrl,
+  theme?, locale?, onEnded?, onDial?, onDialer?, onOpenUrl?, onMediaError? })`
+  shows the HAINIVA desk in a sandboxed iframe signed in with your agent
+  session and returns `{ destroy(), setTheme(), setLocale(), iframe }`. The
+  handshake checks `event.source` and the desk origin, posts to the desk origin
+  only, supplies and refreshes the desk token (single flight), and ends on a
+  refused session or when the desk does not load (`load_failed`). Exports the
+  protocol (`DeskToHost`, `HostToDesk`, `parseDeskMessage`), `DESK_SANDBOX`,
+  `DESK_ALLOW` and `deskUrl()`.
+- `@hainiva/agent-sdk/react-native`: `<HainivaDesk agent appId baseUrl onDial …/>`
+  in a `react-native-webview` WebView (optional peer, or pass `WebView`):
+  bridge injected before the desk's scripts on the desk origin only,
+  `originWhitelist` limited to the desk, no `window.open` passthrough; calls
+  are handed to your app (`onDial`, `onDialer`).
+- `agent.desk.session()` / `AgentRestClient.deskSession()`:
+  `POST /agent/v1/desk-session` → `AgentDeskSessionDto {token, expiresAt}`.
+- Optional peers `react` and `react-native-webview` (only for `<HainivaDesk/>`).
+
+## [0.2.0] - 2026-11-14
 
 - `HainivaAgent`: one object for a staff member's app — `connect()`, `me`,
   `setStatus`, `rings.pending`, `calls.accept/decline/end/hold/mute/transfer`,
@@ -33,7 +51,7 @@ Preview, not yet published.
 
 ## [0.1.0]
 
-Preview, not yet published.
+Not published to npm; its contents shipped in 0.2.0.
 
 - `SessionManager`: sign-in with a fresh assertion from your backend every
   time, pluggable `SessionStore` (memory by default), single-flight refresh
@@ -49,6 +67,7 @@ Preview, not yet published.
 - `/react-native`: `secureStoreSessionStore`, `joinCallRoom` (LiveKit).
 - `/embed`: placeholder, throws.
 
-[Unreleased]: https://github.com/hainiva/agent-sdk/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/hainiva/agent-sdk/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/hainiva/agent-sdk/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/hainiva/agent-sdk/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/hainiva/agent-sdk/releases/tag/v0.1.0

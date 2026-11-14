@@ -17,7 +17,7 @@
 import type {
   AgentAcceptDto, AgentCallDto, AgentConversationDto, AgentDispositionDto, AgentMeDto, AgentMediaTokenDto,
   AgentMessageDto, AgentPage, AgentPresenceStatus, AgentPushSubscriptionDto, AgentPushSubscriptionInput, AgentRingDto,
-  AgentSessionDto, SupervisorAgentDto, SupervisorLiveCallDto, SupervisorSuperviseDto,
+  AgentDeskSessionDto, AgentSessionDto, SupervisorAgentDto, SupervisorLiveCallDto, SupervisorSuperviseDto,
 } from "./contract.js";
 import { HainivaAgentError } from "./errors.js";
 import { safeLogger, type Logger } from "./log.js";
@@ -251,6 +251,12 @@ export class AgentRestClient {
     else body = { number: target.number, mode: target.mode ?? "warm" };
     return this.request("POST", `/agent/v1/calls/${id(callId, "callId")}/transfer`, { ...o, body });
   }
+  /**
+   * A 15-minute desk token for the embedded HAINIVA desk (S4): give it to the
+   * desk over postMessage only (`@hainiva/agent-sdk/embed` does). Never put it
+   * in a URL or storage. Ends with this session.
+   */
+  async deskSession(o?: RequestOptions): Promise<AgentDeskSessionDto> { return this.request("POST", "/agent/v1/desk-session", { ...o, body: {} }); }
   /** Re-mint the LiveKit token while still a participant (reconnect, token near expiry). */
   async mediaToken(callId: string, o?: RequestOptions): Promise<MediaCredentials> { return this.request("POST", `/agent/v1/calls/${id(callId, "callId")}/media-token`, { ...o, body: {} }); }
 

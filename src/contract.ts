@@ -123,6 +123,14 @@ export interface AgentSessionDto {
   wsUrl: string;
 }
 
+/**
+ * POST /agent/v1/desk-session (201) — partner platform S4, the embeddable desk.
+ * A 15-minute token for the HAINIVA desk shown inside the partner's product,
+ * handed to the desk over postMessage only (never in a URL, never stored).
+ * Bound to the agent session it came from: ends when that session ends.
+ */
+export interface AgentDeskSessionDto { token: string; expiresAt: string }
+
 /** POST /agent/v1/calls/:id/accept. `media` is null for a call without a room (chat). */
 export interface AgentAcceptDto { callId: string; accepted: true; media: AgentMediaTokenDto | null }
 

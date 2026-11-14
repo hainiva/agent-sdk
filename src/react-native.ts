@@ -50,3 +50,7 @@ export function secureStoreSessionStore(secure: SecureStoreModule, o: SecureStor
     remove: () => secure.deleteItemAsync(key, opts),
   };
 }
+
+// The embedded HAINIVA desk in a WebView (react-native-webview, an optional
+// peer), signed in with your agent session; calls stay native in your app.
+export { HainivaDesk, deskBridgeScript, type HainivaDeskProps, type WebViewLike } from "./reactNativeDesk.js";

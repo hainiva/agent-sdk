@@ -34,6 +34,10 @@ curl -X POST https://api.hainiva.com/v1/agent-apps \
 Keep the `id` it answers: it is `AGENT_APP_ID`. Members are created with
 `PUT /v1/members/by-external-id/<your staff id>`.
 
+A live organisation accepts only a public key (ES256 / RS256, or a `jwksUrl`).
+A shared HS256 secret (`credential: {kind: "hs256"}`) works only for a test app
+on a sandbox organisation.
+
 **Rotating the key**: make a new pair with a new `kid`, then
 `POST /v1/agent-apps/:id/rotate-credential` with the new public key. The old
 key keeps working for 24 hours so you can roll out; add `"immediate": true` if
@@ -64,6 +68,10 @@ never from the request body.
 
 Roles never come from the assertion: HAINIVA uses the role you set on the
 member.
+
+The signer is also your off switch: as long as it signs for someone, revoking
+their HAINIVA sessions only makes the SDK sign in again. Stop signing for people
+who leave, and suspend or delete their member.
 
 ## A headless agent
 

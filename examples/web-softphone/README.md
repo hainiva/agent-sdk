@@ -7,7 +7,9 @@ wrap up.
 1. Add the page's exact origin (e.g. `https://agents.example.com`) to the agent
    app's `allowedOrigins`. HAINIVA answers the browser's CORS preflight only for
    origins an agent app lists, and every request is checked against the origins
-   of the app its session belongs to.
+   of the app its session belongs to. An origin that is not listed fails at the
+   preflight, before sign-in: `connect()` rejects with a `HainivaAgentError` of
+   status `0` (`network_error`), shown as a CORS error in the browser.
 2. Set `tenantId` and `signer` in `src/main.ts`.
 3. `npm install && npm run dev`.
 

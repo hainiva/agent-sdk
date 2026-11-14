@@ -5,15 +5,15 @@
  * Entry points:
  *   "@hainiva/agent-sdk"              transport-agnostic core (this file) — no LiveKit, no DOM, no React Native
  *   "@hainiva/agent-sdk/web"          localStorage store (opt-in), LiveKit call media
- *   "@hainiva/agent-sdk/react-native" secure-store session, LiveKit call media
- *   "@hainiva/agent-sdk/embed"        the embeddable desk (not yet available)
+ *   "@hainiva/agent-sdk/react-native" secure-store session, LiveKit call media, <HainivaDesk/>
+ *   "@hainiva/agent-sdk/embed"        mountDesk(): the HAINIVA desk in your web page (iframe)
  *
  * Start with HainivaAgent (./agent): it wires the session, the REST client,
  * the event socket and the call state machine together. The parts are exported
  * too, for apps that want their own wiring.
  */
 
-export const SDK_VERSION = "0.2.0";
+export const SDK_VERSION = "0.3.0";
 
 export { HainivaAgentError } from "./errors.js";
 export { Redactor, redactString, redactValue } from "./redact.js";

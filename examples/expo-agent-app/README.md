@@ -33,7 +33,9 @@ npx expo run:android   # or run:ios
 
 - **Android**: HAINIVA sends an FCM data message with your credentials:
   `{type: "call", tenantId, interactionId, conversationId, path, caller, line, expiresAt}`
-  (and `{type: "call_cancel", interactionId, reason}` when it ends). The
+  (all strings, `expiresAt` in Unix milliseconds, plus `transferMode` for a
+  transfer), and `{type: "call_cancel", tenantId, interactionId, reason}` when it
+  ends. The
   background handler shows the system call screen with `showIncomingCall`.
 - **iPhone**: HAINIVA sends a PushKit VoIP push to `<bundle id>.voip` with the
   same fields; `@hainiva/react-native-call` reports it to CallKit natively.
@@ -46,3 +48,7 @@ npx expo run:android   # or run:ios
 `signOut()` unregisters this phone's push token first, clears the ring tenant,
 then ends the session. HAINIVA also stops pushing to a phone whose sign-in has
 ended.
+
+To cut a staff member off, suspend or delete the member (or pause the agent
+app). Revoking their sessions only signs them out: the app signs in again
+through your signer.

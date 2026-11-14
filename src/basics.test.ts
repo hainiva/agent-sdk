@@ -4,7 +4,6 @@ import { HainivaAgentError } from "./errors.js";
 import { safeLogger } from "./log.js";
 import { Redactor, redactString, redactValue } from "./redact.js";
 import { assertSafeUrl } from "./url.js";
-import { mountDesk } from "./embed.js";
 import { localStorageStore, memoryStore } from "./web.js";
 import { secureStoreSessionStore } from "./react-native.js";
 
@@ -156,8 +155,3 @@ describe("stores", () => {
   });
 });
 
-describe("embed", () => {
-  it("is not available yet", () => {
-    expect(() => mountDesk()).toThrow("@hainiva/agent-sdk/embed is not yet available");
-  });
-});

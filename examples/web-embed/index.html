@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Strict CSP: no third-party scripts on a page that holds a staff session.
+         frame-src: the HAINIVA desk only. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://api.hainiva.com wss://api.hainiva.com https://agents.example.com; frame-src https://app.hainiva.com; script-src 'self'; style-src 'self' 'unsafe-inline'" />
+    <title>Desk</title>
+    <style>
+      html, body { margin: 0; height: 100%; font-family: system-ui, sans-serif; }
+      header { display: flex; gap: 12px; align-items: center; padding: 8px 16px; border-bottom: 1px solid #ddd; }
+      #desk { height: calc(100% - 49px); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>My product</strong>
+      <label>Theme
+        <select id="theme"><option value="light">Light</option><option value="dark">Dark</option></select>
+      </label>
+      <button id="signout">Sign out</button>
+      <span id="status-line"></span>
+    </header>
+    <div id="desk"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

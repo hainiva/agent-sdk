@@ -1,0 +1,17 @@
+{
+  "name": "hainiva-web-embed-example",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@hainiva/agent-sdk": "^0.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vite": "^6.0.0"
+  }
+}

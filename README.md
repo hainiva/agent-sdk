@@ -11,8 +11,8 @@ browser, in React Native, or in Node.
 | --- | --- | --- |
 | `@hainiva/agent-sdk` | `HainivaAgent`, the REST client, the socket, the call state machine, redaction | nothing (no LiveKit, DOM or React Native) |
 | `@hainiva/agent-sdk/web` | `joinCallRoom` (LiveKit), `localStorageStore` (opt-in) | `livekit-client` |
-| `@hainiva/agent-sdk/react-native` | `joinCallRoom`, `secureStoreSessionStore` | `livekit-client`, `@livekit/react-native`, `expo-secure-store` |
-| `@hainiva/agent-sdk/embed` | the embeddable desk | not yet available (throws) |
+| `@hainiva/agent-sdk/react-native` | `joinCallRoom`, `secureStoreSessionStore`, `<HainivaDesk/>` | `livekit-client`, `@livekit/react-native`, `expo-secure-store`; `react-native-webview` for `<HainivaDesk/>` |
+| `@hainiva/agent-sdk/embed` | `mountDesk()`: the full HAINIVA desk inside your web page | a browser |
 
 Native ringing on phones (CallKit / Android call notification) is
 [`@hainiva/react-native-call`](https://github.com/hainiva/react-native-call).
@@ -72,7 +72,7 @@ member with **your own** login, it signs a short assertion:
 
 | | |
 | --- | --- |
-| header | `alg: "ES256"` (or `RS256`), `kid`: the key id you registered |
+| header | `alg: "ES256"` (or `RS256`), `kid`: the key id you registered. `HS256` works only for a test app on a sandbox organisation. |
 | `iss` | your agent app id |
 | `sub` | the member's `externalId` (`PUT /v1/members/by-external-id/:externalId`) |
 | `aud` | `hainiva-agent` |
@@ -88,8 +88,17 @@ for key generation and a complete signer.
 expires (one refresh however many requests are waiting; the refresh token
 rotates). A request answered `401 token_expired` refreshes and is retried once.
 A refused refresh (expired, revoked, reused) signs in again with a new
-assertion. `401 session_revoked` — signed out elsewhere, member suspended, app
-paused — is final: the SDK forgets the session and emits `revoked`.
+assertion. `401 session_revoked` (signed out elsewhere, sessions revoked,
+member suspended, role changed, app paused) ends this session: the SDK forgets
+it and emits `revoked`.
+
+**Revoking sessions does not cut a member off.** The next `connect()`, or the
+embedded desk asking for a token, signs in again with a fresh assertion, and
+your backend still vouches for the member, so it succeeds. To stop someone
+working, suspend or delete the member (`PATCH /v1/members/:id
+{"status":"suspended"}`, `DELETE /v1/members/:id`) or pause the agent app; then
+sign-in is refused (`401 session_refused`, `403 agent_app_paused`). Stop
+signing assertions for them on your side too.
 
 ## Events
 
@@ -154,15 +163,21 @@ Phones ring through **your** app with **your** Firebase / APNs credentials.
    before signing out anyway.
 3. **Show the ring** with `@hainiva/react-native-call` — Android: the FCM data
    message `{type: "call", tenantId, interactionId, conversationId, path,
-   caller, line, expiresAt}` (and `call_cancel`); iPhone: a VoIP push to
-   `<topic>.voip` with the same fields, reported to CallKit natively. See
+   caller, line, expiresAt, transferMode?}` (all strings; `expiresAt` in Unix
+   milliseconds) and `{type: "call_cancel", tenantId, interactionId, reason}`;
+   iPhone: a VoIP push to `<topic>.voip` with the same fields, reported to
+   CallKit natively (ring ends come over the socket, not as a push). See
    [`examples/expo-agent-app`](./examples/expo-agent-app).
 
 ## Web
 
 Add your page's exact origin to the agent app's `allowedOrigins`. HAINIVA
 answers the browser's CORS preflight only for origins an agent app lists, and
-checks every request against the origins of the app its session belongs to.
+checks every request against the origins of the app its session belongs to
+(`403 origin_not_allowed`). A page on an origin that no app lists is refused at
+the preflight, before any sign-in: `connect()` fails with a
+`HainivaAgentError` of status `0` (`network_error`), which in the browser's
+network panel is a CORS error.
 
 The session is kept **in memory** by default: a reload signs in again with a
 fresh assertion. `localStorageStore()` keeps it across reloads, but **any
@@ -181,6 +196,68 @@ The session lives in the iOS Keychain (readable after first unlock, so a ring
 that wakes a locked phone finds it; never migrated to another device) or the
 Android Keystore. There is no fallback to a plain store. Call
 `registerGlobals()` from `@livekit/react-native` once at startup.
+
+## The embedded desk
+
+Show the whole HAINIVA desk inside your product, signed in as your staff
+member with **your** agent session — no HAINIVA login screen, no password.
+
+```ts
+import { mountDesk } from "@hainiva/agent-sdk/embed";
+
+await agent.connect();
+const desk = mountDesk(document.getElementById("desk")!, {
+  agent,                                   // your connected HainivaAgent
+  appId: "YOUR_AGENT_APP_ID",
+  baseUrl: "https://app.hainiva.com",      // the HAINIVA desk
+  theme: "light", locale: "vi",
+  onEnded: (reason) => showSignedOut(reason),
+});
+desk.setTheme("dark");
+desk.destroy();
+```
+
+- **Your page's origin must be in the agent app's `allowedOrigins`.** That list
+  is also the desk's CSP `frame-ancestors`: any other site gets a blank frame
+  (and `onEnded("load_failed")`). Adding an origin lets that site embed the desk
+  for this app's staff — list only sites you control.
+- The SDK exchanges your agent session for a 15-minute **desk token**
+  (`POST /agent/v1/desk-session`, `agent.desk.session()`) and hands it to the
+  desk over `postMessage` — never in the URL, never stored. The desk asks for a
+  new one before it expires. When your session ends for good (sign-out,
+  member suspended or deleted, app paused) the desk shows "ended" at once and
+  `onEnded` fires. Revoking sessions alone does not end the desk: the SDK signs
+  in again with a fresh assertion (see Sessions above).
+- The desk token works only for the desk's own work (conversations, calls,
+  contacts, tickets…). Settings, team, billing, developer and admin pages are
+  refused, and it can never switch organisation.
+- The iframe is created with
+  `sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-downloads allow-modals"`
+  (never top navigation: the desk cannot navigate your page) and
+  `allow="microphone; camera; autoplay; clipboard-write"`. On the web **the desk
+  carries calls itself (WebRTC)**; if your own iframe or Permissions-Policy does
+  not delegate the microphone, or the person refuses it, `onMediaError(name)`
+  tells you.
+- Messages are read only from that iframe's window **and** the desk origin, and
+  only in the documented shapes; everything is sent to the desk origin only.
+
+React Native — calls stay native in your app (`@hainiva/react-native-call`),
+the desk hands them to you:
+
+```tsx
+import { WebView } from "react-native-webview";
+import { HainivaDesk } from "@hainiva/agent-sdk/react-native";
+
+<HainivaDesk agent={agent} appId={APP_ID} baseUrl="https://app.hainiva.com" WebView={WebView}
+  onDial={(number, contactId) => placeCall(number, contactId)}
+  onDialer={(prefill) => openDialer(prefill)}
+  onOpenUrl={(url) => Linking.openURL(url)}
+  onEnded={(reason) => signOut(reason)} />
+```
+
+The WebView stays on the desk origin (`originWhitelist`, every other URL goes
+to `onOpenUrl`), opens no windows, and gets its bridge before the desk's
+scripts, on the desk origin only.
 
 ## Security
 
