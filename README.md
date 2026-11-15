@@ -1,6 +1,6 @@
 # @hainiva/agent-sdk
 
-Build **your own staff app** on [HAINIVA AICC](https://hainiva.com): your staff
+Build **your own staff app** on [HAINIVA](https://hainiva.com): your staff
 sign in with an assertion from your backend, receive their rings and
 conversations over one reconnecting socket, and take calls with LiveKit — in a
 browser, in React Native, or in Node.
@@ -258,6 +258,20 @@ import { HainivaDesk } from "@hainiva/agent-sdk/react-native";
 The WebView stays on the desk origin (`originWhitelist`, every other URL goes
 to `onOpenUrl`), opens no windows, and gets its bridge before the desk's
 scripts, on the desk origin only.
+
+## Documentation
+
+- [HAINIVA developer docs](https://hainiva.com/en/developers/docs) — start with
+  [Quickstart: your own staff app](https://hainiva.com/en/developers/docs/quickstart-staff-app), then
+  [Staff sign-in and agent apps](https://hainiva.com/en/developers/docs/staff-sign-in),
+  [Agent API](https://hainiva.com/en/developers/docs/agent-api), [Events](https://hainiva.com/en/developers/docs/events),
+  [Push setup](https://hainiva.com/en/developers/docs/push-setup) and [Embedded desk](https://hainiva.com/en/developers/docs/embedded-desk).
+- [API reference](https://api.hainiva.com/docs/) — every endpoint, request and
+  error code.
+- [Troubleshooting](https://hainiva.com/en/developers/docs/troubleshooting).
+- Sibling SDKs: [`@hainiva/react-native-call`](https://github.com/hainiva/react-native-call)
+  (native ringing) and [`@hainiva/app-sdk`](https://github.com/hainiva/app-sdk)
+  (your customers' app, the App channel).
 
 ## Security
 

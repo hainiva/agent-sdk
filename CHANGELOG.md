@@ -7,6 +7,11 @@ release (`0.2.0`) may change the API; a patch release (`0.1.1`) never does.
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-15
+
+- README: the product is named HAINIVA; new Documentation section linking the
+  developer docs, the API reference and the sibling SDKs. No code changes.
+
 ## [0.3.0] - 2026-11-14
 
 - `@hainiva/agent-sdk/embed`: `mountDesk(container, { agent, appId, baseUrl,
@@ -67,7 +72,8 @@ Not published to npm; its contents shipped in 0.2.0.
 - `/react-native`: `secureStoreSessionStore`, `joinCallRoom` (LiveKit).
 - `/embed`: placeholder, throws.
 
-[Unreleased]: https://github.com/hainiva/agent-sdk/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/hainiva/agent-sdk/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/hainiva/agent-sdk/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/hainiva/agent-sdk/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/hainiva/agent-sdk/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/hainiva/agent-sdk/releases/tag/v0.1.0

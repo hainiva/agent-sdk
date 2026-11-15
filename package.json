@@ -1,7 +1,7 @@
 {
   "name": "@hainiva/agent-sdk",
-  "version": "0.3.0",
-  "description": "Build your own agent app on HAINIVA AICC: staff sign-in with your backend's assertion, a reconnecting event stream and a call state machine, with LiveKit media for web and React Native.",
+  "version": "0.3.1",
+  "description": "Build your own agent app on HAINIVA: staff sign-in with your backend's assertion, a reconnecting event stream and a call state machine, with LiveKit media for web and React Native.",
   "keywords": [
     "hainiva",
     "contact-center",

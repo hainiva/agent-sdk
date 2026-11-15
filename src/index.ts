@@ -1,5 +1,5 @@
 /**
- * @hainiva/agent-sdk — build your own agent app on HAINIVA AICC: staff sign-in
+ * @hainiva/agent-sdk — build your own agent app on HAINIVA: staff sign-in
  * with your backend's assertion, the live event stream, and calls.
  *
  * Entry points:
@@ -13,7 +13,7 @@
  * too, for apps that want their own wiring.
  */
 
-export const SDK_VERSION = "0.3.0";
+export const SDK_VERSION = "0.3.1";
 
 export { HainivaAgentError } from "./errors.js";
 export { Redactor, redactString, redactValue } from "./redact.js";
