@@ -13,7 +13,7 @@
  * too, for apps that want their own wiring.
  */
 
-export const SDK_VERSION = "0.3.1";
+export const SDK_VERSION = "0.3.2";
 
 export { HainivaAgentError } from "./errors.js";
 export { Redactor, redactString, redactValue } from "./redact.js";

@@ -190,7 +190,7 @@ export interface AgentCallEndedData {
 
 export const AGENT_EVENT_NAMES = [
   "call.ringing", "call.ended", "conversation.assigned", "message.created",
-  "wrapup.required", "presence.changed", "supervisor.alert",
+  "wrapup.required", "presence.changed", "supervisor.alert", "call.supervised",
 ] as const;
 export type AgentEventName = (typeof AGENT_EVENT_NAMES)[number];
 

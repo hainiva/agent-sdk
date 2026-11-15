@@ -114,6 +114,7 @@ filtered by HAINIVA):
 | `wrapup.required` | `{callId, conversationId, deadlineAt}` |
 | `presence.changed` | `{callId, participantId, role, presence}` |
 | `supervisor.alert` | the alert (supervisors) |
+| `call.supervised` | `{callId, conversationId, supervisorId, supervisorName, mode}`: a supervisor joined this member's call or changed mode (`monitor`, `whisper`, `barge`) |
 | `event.unknown` | an event name newer than this SDK |
 
 And from the SDK itself: `connection` (socket state), `ready`, `calls` (the

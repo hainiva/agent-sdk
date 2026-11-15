@@ -71,6 +71,8 @@ export interface HainivaAgentEvents {
   "wrapup.required": { callId: string; conversationId: string; deadlineAt: string | null };
   "presence.changed": Record<string, unknown>;
   "supervisor.alert": Record<string, unknown>;
+  /** A supervisor joined this member's call, or changed mode (monitor = listening only). */
+  "call.supervised": { callId: string; conversationId: string | null; supervisorId: string; supervisorName: string | null; mode: "monitor" | "whisper" | "barge" };
   /** An event name this SDK version does not know yet (the server added one). */
   "event.unknown": AgentEventFrame;
   /** The calls changed (state machine). */

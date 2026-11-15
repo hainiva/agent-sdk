@@ -7,6 +7,13 @@ release (`0.2.0`) may change the API; a patch release (`0.1.1`) never does.
 
 ## [Unreleased]
 
+## [0.3.2] - 2026-11-15
+
+- New event `call.supervised` `{callId, conversationId, supervisorId,
+  supervisorName, mode}`: a supervisor joined this member's call, or changed
+  mode (`monitor`, `whisper`, `barge`). Show it to the member, as the HAINIVA
+  desk does. 0.3.1 and older deliver it as `event.unknown`.
+
 ## [0.3.1] - 2026-11-15
 
 - README: the product is named HAINIVA; new Documentation section linking the
@@ -72,7 +79,8 @@ Not published to npm; its contents shipped in 0.2.0.
 - `/react-native`: `secureStoreSessionStore`, `joinCallRoom` (LiveKit).
 - `/embed`: placeholder, throws.
 
-[Unreleased]: https://github.com/hainiva/agent-sdk/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/hainiva/agent-sdk/compare/v0.3.2...HEAD
+[0.3.2]: https://github.com/hainiva/agent-sdk/compare/v0.3.1...v0.3.2
 [0.3.1]: https://github.com/hainiva/agent-sdk/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/hainiva/agent-sdk/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/hainiva/agent-sdk/compare/v0.1.0...v0.2.0
